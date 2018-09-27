@@ -127,7 +127,7 @@ app.controller('MainController', function ($scope, $rootScope, $localStorage, $i
             $scope.$storage.lat = crd.latitude;
             $scope.$storage.lon = crd.longitude;
         }
-        function error() {}
+        function error() { }
 
         options = {
             enableHighAccuracy: false,
@@ -137,4 +137,73 @@ app.controller('MainController', function ($scope, $rootScope, $localStorage, $i
 
         id = navigator.geolocation.watchPosition(success, error, options);
     }
+});
+
+$(function () {
+    var started = false;
+    var stopped = false;
+    var start = 180;            // Starts at top
+    var end = -180;             // Loops at top
+    var dir = -1;               // Counter-Clockwise Direction
+    var raceTime1 = 100000;     // Speed of My Zeppelin
+    var raceTime2 = 110000;     // Speed of Enemy Zeppelin
+
+    var zepWidth = $('.zep').width() - 11;
+    var zepHeight = $('.zep').height();
+    var globeRadius = $('#globe1').width() / 2;
+
+    $('#start').click(function () {
+    
+        if (!started) {
+            started = true;
+
+            endless('#zep1');
+            endless('#zep2');
+
+        }
+        if (stopped) {
+            stopped = false;
+            endless('#zep1');
+        }
+
+
+        function endless(elem) {
+            $(elem).animate({
+                path: new $.path.arc({
+                    center: [globeRadius - zepWidth + zepHeight, globeRadius],
+                    radius: globeRadius,
+                    start: start,
+                    end: end,
+                    dir: dir
+                }),
+            }, getRaceTime(elem), function () {
+                $(elem).css('top', 0);
+                endless(elem);
+            });
+        }
+
+        function getRaceTime(elem) {
+            if (elem == '#zep1')
+                return raceTime1;
+            else return raceTime2;
+        }
+
+    });
+
+    $('#stop').click(function () {
+        stopped = true;
+        $('#zep1').stop();
+    });
+
+    $('#reset').click(function () {
+        $('#zep1').stop();
+        $('#zep2').stop();
+        started = false;
+        stopped = false;
+        $('.zep').css('top', '0');
+        $('.zep').css('left', '35%');
+        $('.zep').css('transform', 'rotate(-9deg)');
+    });
+
+
 });

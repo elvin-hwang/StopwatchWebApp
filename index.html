@@ -8,18 +8,19 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="script.js"></script>
-    <link rel="stylesheet" href="style.css">
+    <script src="js/script.js"></script>
+    <script src="js/jquery.path.js"></script>
+    <link rel="stylesheet" href="styles/style.css">
 </head>
 <body ng-controller="MainController" id="index">
     <div class="view">
         <div style="width:50%; margin-left: 50px; float:left;">
             <div class="container">
                 <h1>Around The Globe</h1>
-                <button1 type="button" class="btn btn-success btn-lg" ng-click="start()">Start</button1>
-                <button2 type="button" class="btn btn-warning btn-lg" ng-click="record()">Record</button2>
-                <button3 type="button" class="btn btn-danger btn-lg" ng-click="stop()">Stop</button3>
-                <button4 type="button" class="btn btn-default btn-lg" ng-click="reset()">RESET</button4>
+                <button1 type="button" id="start" class="btn btn-success btn-lg" ng-click="start()">Start</button1>
+                <button2 type="button" id="record" class="btn btn-warning btn-lg" ng-click="record()">Record</button2>
+                <button3 type="button" id ="stop" class="btn btn-danger btn-lg" ng-click="stop()">Stop</button3>
+                <button4 type="button" id="reset" class="btn btn-default btn-lg" ng-click="reset()">RESET</button4>
             </div>
             <div class="container">
                 <h2>Recorded Times</h2>
@@ -35,8 +36,8 @@
             </div>
         </div>
 
-        <div style="width:40%; float:right;">
-            <div class="container">
+        <div style="width:40%; height:100%; float:right;">
+            <div>
                 <h1>Information Display</h1>
                 <div id="information-container">
                     <p><strong>Current Time: </strong>{{$storage.sharedTime | date:'h:mm:ss a'}} <strong>TimeZone: </strong>{{$storage.sharedTime | date:'Z'}}</p>
@@ -45,6 +46,17 @@
                     <p><strong>Last Stopped Location: </strong>({{$storage.stopLat | number}}, {{$storage.stopLon | number}})</p>
                 </div>
             </div>
+
+            <section class="container">
+                <p id="mine"> My Zeppelin</p>
+                <div id="globe1" class="container">
+                    <img src="styles/zeppelin.png" alt="My Zep" id="zep1" class="zep" />
+                </div>
+                <p id="prof"> Professor Higginbotham's Zeppelin</p>
+                <div id="globe2" class="container">
+                    <img src="styles/zeppelin.png" alt="HigginBotham" id="zep2" class="zep" />
+                </div>
+            </section>
         </div>
     </div>
 
