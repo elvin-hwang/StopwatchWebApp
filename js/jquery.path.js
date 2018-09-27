@@ -75,7 +75,7 @@
         this.css = function (p) {
             var a = this.start * (p) + this.end * (1 - (p))
             var z = -a + 180 - 9;
-            a = a * 3.1415927 / 180 // to radians
+            a = a * 3.1415927 / 180
 
             var x = Math.sin(a) * this.radius + this.center[0]
             var y = Math.cos(a) * this.radius + this.center[1]

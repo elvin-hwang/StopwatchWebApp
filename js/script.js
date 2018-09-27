@@ -1,8 +1,10 @@
+// Script in AngularJS for StopWatch
 var app = angular.module('StopWatchApp', ['ngStorage']);
 app.controller('MainController', function ($scope, $rootScope, $localStorage, $interval) {
 
     $scope.$storage = $localStorage;
 
+    // initialize global variables
     $scope.$storage.sharedTime = new Date();
     $scope.$storage.lat = 0;
     $scope.$storage.lon = 0;
@@ -26,6 +28,7 @@ app.controller('MainController', function ($scope, $rootScope, $localStorage, $i
     };
     $scope.$storage.times = [];
 
+    // reset function sets required global variables to initial values.
     $scope.reset = function () {
         currentElapsedTime = 0;
         $scope.$storage.play = false;
@@ -47,9 +50,10 @@ app.controller('MainController', function ($scope, $rootScope, $localStorage, $i
         $scope.$storage.times = [];
     };
 
+    // Start the stopwatch, which starts the timer and location updates
     $scope.start = function () {
-        updateLocation();
         if (!$scope.$storage.play) {
+            updateLocation();
             playWatch();
             $scope.$storage.play = true;
             if (!$scope.$storage.displayStart)
@@ -57,6 +61,7 @@ app.controller('MainController', function ($scope, $rootScope, $localStorage, $i
         }
     };
 
+    // Stops the stopwatch and displays the stopped time
     $scope.stop = function () {
         if ($scope.$storage.play) {
             pauseWatch();
@@ -68,6 +73,7 @@ app.controller('MainController', function ($scope, $rootScope, $localStorage, $i
 
     };
 
+    // Adds an item to the array of times, which are added to the top of scroll view
     $scope.record = function () {
         if ($scope.$storage.displayStart) {
             $scope.time.curr = $scope.$storage.sharedTime
@@ -77,30 +83,28 @@ app.controller('MainController', function ($scope, $rootScope, $localStorage, $i
         }
     };
 
+    // Updates the timer and current date every 500ms
     $interval(function () {
         $scope.$storage.sharedTime = new Date();
         $scope.time = {};
         updateTimer();
     }, 500);
 
+    // Helper for start() which saves the started time in order to calculate elapsed time
     function playWatch() {
         if (!$scope.$storage.startTime) {
             $scope.$storage.startTime = new Date();
         }
     }
 
+    // Helper for stop() which sets startTime back to null and stores the time elapsed so far
     function pauseWatch() {
         $scope.$storage.startTime = null;
         $scope.$storage.totalElapsedTime += currentElapsedTime;
         currentElapsedTime = 0;
     }
 
-    function getCurrentElapsedTime() {
-        var now = new Date();
-        var start = new Date($scope.$storage.startTime);
-        return (now.getTime() - start.getTime()) / 10;
-    }
-
+    // Keeps updating the $scope.time.number variable to keep track with current elapsed time
     function updateTimer() {
         if ($scope.$storage.play) {
             currentElapsedTime = getCurrentElapsedTime();
@@ -112,6 +116,14 @@ app.controller('MainController', function ($scope, $rootScope, $localStorage, $i
         }
     }
 
+    // Calculates the elapsed time by the difference between start and now
+    function getCurrentElapsedTime() {
+        var now = new Date();
+        var start = new Date($scope.$storage.startTime);
+        return (now.getTime() - start.getTime()) / 10;
+    }
+
+    // Converts the millisecond time into 3 seperate variables and stores it
     function calculateTime() {
         var minuteReminder;
         minuteReminder = $scope.time.number % 6000;
@@ -120,7 +132,7 @@ app.controller('MainController', function ($scope, $rootScope, $localStorage, $i
         $scope.time.s = Math.floor(minuteReminder / 100);
     }
 
-
+    // Watches the position and updates variables once there is a change in location
     function updateLocation() {
         function success(position) {
             var crd = position.coords;
@@ -139,21 +151,28 @@ app.controller('MainController', function ($scope, $rootScope, $localStorage, $i
     }
 });
 
+// Script in jQuery for the Zeppelins animations around globe
+// Note - pressing stop and then start resets your zeppelin position. 
+//        (Consider it a handicap against the professor.)
 $(function () {
+
+    // initialize global variables
     var started = false;
     var stopped = false;
     var start = 180;            // Starts at top
     var end = -180;             // Loops at top
     var dir = -1;               // Counter-Clockwise Direction
-    var raceTime1 = 100000;     // Speed of My Zeppelin
+    var raceTime1 = 90000;     // Speed of My Zeppelin
     var raceTime2 = 110000;     // Speed of Enemy Zeppelin
 
     var zepWidth = $('.zep').width() - 11;
     var zepHeight = $('.zep').height();
     var globeRadius = $('#globe1').width() / 2;
 
+    // Once start is clicked, let the animations start if they havent already been started
+    // Or restart the position of your zeppelin if it has already started
     $('#start').click(function () {
-    
+
         if (!started) {
             started = true;
 
@@ -166,7 +185,7 @@ $(function () {
             endless('#zep1');
         }
 
-
+        // Helper to continue the animation after the ending point
         function endless(elem) {
             $(elem).animate({
                 path: new $.path.arc({
@@ -182,6 +201,7 @@ $(function () {
             });
         }
 
+        // Helper to get the speed of Zeppellin depending on id
         function getRaceTime(elem) {
             if (elem == '#zep1')
                 return raceTime1;
@@ -190,11 +210,13 @@ $(function () {
 
     });
 
+    // Stop the animation and keep your zeppelin in place
     $('#stop').click(function () {
         stopped = true;
         $('#zep1').stop();
     });
 
+    // Stops both animations and resets both to original position
     $('#reset').click(function () {
         $('#zep1').stop();
         $('#zep2').stop();
@@ -204,6 +226,5 @@ $(function () {
         $('.zep').css('left', '35%');
         $('.zep').css('transform', 'rotate(-9deg)');
     });
-
 
 });

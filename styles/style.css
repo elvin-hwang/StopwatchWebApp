@@ -1,3 +1,4 @@
+/* StopWatch */
 
 body {
     background-image: url(clouds.jpg);
@@ -13,7 +14,7 @@ body {
 
 h1, h2, #mine, #prof {
     font-family: 'Arial Rounded MT';
-    color:white;
+    color: white;
 }
 
 div.list-group {
@@ -29,6 +30,7 @@ button1, button2, button3 {
     margin-right: 5%;
     width: 10%;
 }
+
 button4 {
     width: 10%;
 }
@@ -57,7 +59,7 @@ a.list-group-item {
     display: inline-block;
 }
 
-/* Zeppelin Globe */
+/* Zeppelin Race */
 
 section.container {
     display: inline-block;
@@ -75,11 +77,12 @@ section.container {
     width: 50%;
     height: 50%;
 }
+
 #zep1, #zep2 {
     display: block;
     width: 30%;
     height: 10%;
-    transform: rotate(-9deg) ;
+    transform: rotate(-9deg);
     position: relative;
     left: 35%;
 }
@@ -91,5 +94,4 @@ section.container {
     background-position: center center;
     width: 50%;
     height: 50%;
-    
 }
