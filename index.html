@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html ng-app="StopWatchApp">
+<head>
+    <title> StopWatchApp </title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.6/ngStorage.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body ng-controller="MainController" id="index">
+    <div class="view">
+        <div style="width:50%; margin-left: 50px; float:left;">
+            <div class="container">
+                <h1>Around The Globe</h1>
+                <button1 type="button" class="btn btn-success btn-lg" ng-click="start()">Start</button1>
+                <button2 type="button" class="btn btn-warning btn-lg" ng-click="record()">Record</button2>
+                <button3 type="button" class="btn btn-danger btn-lg" ng-click="stop()">Stop</button3>
+                <button4 type="button" class="btn btn-default btn-lg" ng-click="reset()">RESET</button4>
+            </div>
+            <div class="container">
+                <h2>Recorded Times</h2>
+                <div class="list-group">
+                    <a class="list-group-item" ng-repeat="t in $storage.times track by $index">
+                        <h3 class="list-group-item-heading"><strong>Current: </strong>{{t.curr | date: 'h:mm:ss a'}}</h3>
+                        <p class="list-group-item-text"><strong>Start: </strong>{{$storage.displayStart | date: 'h:mm:ss a'}}</p>
+                        <p class="list-group-item-text"><strong>Elapsed: </strong>{{t.h}}:{{t.m}}:{{t.s}} seconds</p>
+                        <p class="list-group-item-text"><strong>Latitude: </strong>{{t.lat | number}} <strong>Longitude: </strong>{{t.lon | number}}</p>
+                        <p class="list-group-item-text"><strong>Started TimeZone: </strong>{{$storage.displayStart | date: 'Z'}}</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div style="width:40%; float:right;">
+            <div class="container">
+                <h1>Information Display</h1>
+                <div id="information-container">
+                    <p><strong>Current Time: </strong>{{$storage.sharedTime | date:'h:mm:ss a'}} <strong>TimeZone: </strong>{{$storage.sharedTime | date:'Z'}}</p>
+                    <p><strong>Elapsed Time: </strong>{{time.h}}:{{time.m}}:{{time.s}} seconds</p>
+                    <p><strong>Last Stopped Time: </strong>{{$storage.displayStop | date: 'h:mm:ss a'}} <strong>TimeZone: </strong>{{$storage.displayStop | date:'Z'}}</p>
+                    <p><strong>Last Stopped Location: </strong>({{$storage.stopLat | number}}, {{$storage.stopLon | number}})</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
