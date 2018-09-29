@@ -152,8 +152,6 @@ app.controller('MainController', function ($scope, $rootScope, $localStorage, $i
 });
 
 // Script in jQuery for the Zeppelins animations around globe
-// Note - pressing stop and then start resets your zeppelin position. 
-//        (Consider it a handicap against the professor.)
 $(function () {
 
     // initialize global variables
@@ -214,6 +212,7 @@ $(function () {
     $('#stop').click(function () {
         stopped = true;
         $('#zep1').stop();
+        start = Math.abs(getRotationDegrees($('#zep1')) - 180 + 9) % 360;
     });
 
     // Stops both animations and resets both to original position
@@ -227,4 +226,18 @@ $(function () {
         $('.zep').css('transform', 'rotate(-9deg)');
     });
 
+    function getRotationDegrees(obj) {
+        var matrix = obj.css("-webkit-transform") ||
+            obj.css("-moz-transform") ||
+            obj.css("-ms-transform") ||
+            obj.css("-o-transform") ||
+            obj.css("transform");
+        if (matrix !== 'none') {
+            var values = matrix.split('(')[1].split(')')[0].split(',');
+            var a = values[0];
+            var b = values[1];
+            var angle = Math.round(Math.atan2(b, a) * (180 / Math.PI));
+        } else { var angle = 0; }
+        return (angle < 0) ? angle + 360 : angle;
+    }
 });

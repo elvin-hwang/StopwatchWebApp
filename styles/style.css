@@ -57,6 +57,7 @@ a.list-group-item {
     font-family: 'Arial Rounded MT';
     font-size: 15px;
     display: inline-block;
+    line-height: 0.6em;
 }
 
 /* Zeppelin Race */
